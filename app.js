@@ -52,6 +52,16 @@ credits.forEach( (credit)=>{
     });
 });
 
+//改變Score後，推薦也改變
+let score = document.querySelectorAll(".Score");
+let classname = document.querySelectorAll(".class-type");
+score.forEach( (score)=>{
+    score.addEventListener("change", (e)=>{
+        //console.log(typeof parseInt(score.value));
+        setRecommend(classname);
+    });
+});
+
 function changeColor(target) {
     if (target.value == "A+" || target.value == "A-" || target.value == "A") {
       target.style.backgroundColor = "lightgreen";
@@ -82,7 +92,6 @@ function changeColor(target) {
       target.style.backgroundColor = "white";
     }
 }
-
 
 function convertor(grade) {
     switch (grade) {
@@ -144,6 +153,161 @@ function setGPA(){
         result = (sum / creditSum).toFixed(2);
     }
     document.getElementById("result-gpa").innerText = result;
+}
+
+let weightage = {
+"線性代數": {
+        CS: 5,
+        DSP: 4,
+        RF: 3,
+        ICS: 3,
+        BigE: 3,
+        SmallE: 3,
+        commsys: 5,
+        commnetwork: 4,
+  },
+
+  "邏輯設計": {
+      CS: 2,
+      DSP: 3,
+      RF: 4,
+      ICS: 5,
+      BigE: 2,
+      SmallE: 2,
+      commsys: 3,
+      commnetwork: 2,
+  },
+
+  "邏輯設計實驗": {
+    CS: 2,
+    DSP: 3,
+    RF: 4,
+    ICS: 5,
+    BigE: 2,
+    SmallE: 2,
+    commsys: 3,
+    commnetwork: 3,
+  },
+
+  "程式設計": {
+    CS: 5,
+    DSP: 3,
+    RF: 2,
+    ICS: 2,
+    BigE: 1,
+    SmallE: 1,
+    commsys: 2,
+    commnetwork: 4,
+  },
+
+  "程式設計實習": {
+    CS: 5,
+    DSP: 3,
+    RF: 2,
+    ICS: 2,
+    BigE: 1,
+    SmallE: 1,
+    commsys: 2,
+    commnetwork: 4,
+  },
+
+  "計算機概論": {
+    CS: 5,
+    DSP: 2,
+    RF: 2,
+    ICS: 3,
+    BigE: 1,
+    SmallE: 1,
+    commsys: 4,
+    commnetwork: 4,
+  },
+};
+
+function setRecommend(classname){
+    let CS=0;  //計算機組
+    let DSP=0;//信號與智慧計算
+    let RF=0;//電磁晶片
+    let ICS=0;//晶片系統
+    let BigE=0;//大電力
+    let SmallE=0;//小電力
+    let commsys=0;//通訊系統
+    let commnetwork =0;//通訊網路
+
+      let scores = [
+        { name: 'CS', score: 0 },
+        { name: 'DSP', score: 0 },
+        { name: 'RF', score: 0 },
+        { name: 'ICS', score: 0 },
+        { name: 'BigE', score: 0 },
+        { name: 'SmallE', score: 0 },
+        { name: 'commsys', score: 0 },
+        { name: 'commnetwork', score: 0 }
+      ];
+  // if(classname[0].value=="線性代數"){
+  //   console.log("hah i am a 線性代數");
+  // }
+
+  if(classname.length ==8){
+      let formLength = document.querySelectorAll("form").length;
+      let credits = document.querySelectorAll(".class-credit");
+      let selects = document.querySelectorAll("select");
+      let score = document.querySelectorAll(".Score");
+      
+      for(let i = 0; i < classname.length; i++){
+        //console.log(classname[i].value);
+        let course = classname[i].value;
+        let courseWeightage = weightage[course]; //獲取該課程的權重
+        console.log(courseWeightage);
+        let parsedScore = parseInt(score[i].value);
+        if(courseWeightage){
+          // 對每個組別對應的權重乘以分數，並加總
+          CS += (courseWeightage.CS || 0) * parsedScore;
+          DSP += (courseWeightage.DSP || 0) * parsedScore;
+          RF += (courseWeightage.RF || 0) * parsedScore;
+          ICS += (courseWeightage.ICS || 0) * parsedScore;
+          BigE += (courseWeightage.BigE || 0) * parsedScore;
+          SmallE += (courseWeightage.SmallE || 0) * parsedScore;
+          commsys += (courseWeightage.commsys || 0) * parsedScore;
+          commnetwork += (courseWeightage.commnetwork || 0) * parsedScore;
+        }
+        //console.log("CS is " + CS);
+      }
+        // 將每個組別的分數存入陣列
+        scores = [
+          { name: 'CS', score: CS },
+          { name: 'DSP', score: DSP },
+          { name: 'RF', score: RF },
+          { name: 'ICS', score: ICS },
+          { name: 'BigE', score: BigE },
+          { name: 'SmallE', score: SmallE },
+          { name: 'commsys', score: commsys },
+          { name: 'commnetwork', score: commnetwork }
+        ];
+        //對分數排序
+        scores.sort((a, b) => b.score - a.score);
+
+        // 選出前三名
+        let topThree = scores.slice(0, 3);
+        console.log('Top three groups:', topThree);
+        console.log(typeof topThree[0].name);
+        
+        let topThreeNames = topThree.map(item => item.name).join(', ');
+        document.getElementById("result-group").innerText = topThreeNames;
+        //document.getElementById("result-group").innerText = topThree[0].name;
+
+        // scores = { CS, DSP, RF, ICS, BigE, SmallE, commsys, commnetwork };
+        // //找到具有最大分數的組別
+        // let maxScore = -Infinity;
+        // let maxGroup = '';
+        // for (const group in scores) {
+        //     if (scores[group] > maxScore) {
+        //         maxScore = scores[group];
+        //         maxGroup = group;
+        //     }
+        // }
+        //console.log('Group with max score:', maxGroup);
+
+  }
 }
 
 let addButton = document.querySelector(".plus-btn");
