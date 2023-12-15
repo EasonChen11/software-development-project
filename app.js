@@ -157,14 +157,14 @@ function setGPA(){
 
 let weightage = {
 "線性代數": {
-        CS: 5,
+        CS: 4,
         DSP: 4,
         RF: 3,
         ICS: 3,
         BigE: 3,
         SmallE: 3,
-        commsys: 5,
-        commnetwork: 4,
+        CommSys: 5,
+        CommNetwork: 4,
   },
 
   "邏輯設計": {
@@ -174,19 +174,19 @@ let weightage = {
       ICS: 5,
       BigE: 2,
       SmallE: 2,
-      commsys: 3,
-      commnetwork: 2,
+      CommSys: 3,
+      CommNetwork: 2,
   },
 
   "邏輯設計實驗": {
-    CS: 2,
+    CS: 1,
     DSP: 3,
     RF: 4,
     ICS: 5,
     BigE: 2,
     SmallE: 2,
-    commsys: 3,
-    commnetwork: 3,
+    CommSys: 3,
+    CommNetwork: 3,
   },
 
   "程式設計": {
@@ -196,8 +196,8 @@ let weightage = {
     ICS: 2,
     BigE: 1,
     SmallE: 1,
-    commsys: 2,
-    commnetwork: 4,
+    CommSys: 2,
+    CommNetwork: 4,
   },
 
   "程式設計實習": {
@@ -207,8 +207,8 @@ let weightage = {
     ICS: 2,
     BigE: 1,
     SmallE: 1,
-    commsys: 2,
-    commnetwork: 4,
+    CommSys: 2,
+    CommNetwork: 4,
   },
 
   "計算機概論": {
@@ -218,8 +218,151 @@ let weightage = {
     ICS: 3,
     BigE: 1,
     SmallE: 1,
-    commsys: 4,
-    commnetwork: 4,
+    CommSys: 4,
+    CommNetwork: 4,
+  },
+
+  "機率":{
+    CS: 3,
+    DSP: 4,
+    RF: 3,
+    ICS: 2,
+    BigE: 4,
+    SmallE: 4,
+    CommSys: 6,
+    CommNetwork: 5,
+  },  
+
+  "微分方程":{
+    CS: 2,
+    DSP: 6,
+    RF: 2,
+    ICS: 4,
+    BigE: 5,
+    SmallE: 5,
+    CommSys: 6,
+    CommNetwork: 3,
+  }, 
+
+  "電子學(一)":{
+    CS: 2,
+    DSP: 2,
+    RF: 6,
+    ICS: 6,
+    BigE: 2,
+    SmallE: 2,
+    CommSys: 1,
+    CommNetwork: 1,
+  }, 
+
+  "電子學(二)":{
+    CS: 2,
+    DSP: 2,
+    RF: 6,
+    ICS: 6,
+    BigE: 2,
+    SmallE: 2,
+    CommSys: 1,
+    CommNetwork: 1,
+  }, 
+
+  "電路學(一)":{
+    CS: 1,
+    DSP: 2,
+    RF: 3,
+    ICS: 5,
+    BigE: 8,
+    SmallE: 8,
+    CommSys: 1,
+    CommNetwork: 1,
+  }, 
+
+  "電路學(二)":{
+    CS: 1,
+    DSP: 2,
+    RF: 3,
+    ICS: 5,
+    BigE: 8,
+    SmallE: 8,
+    CommSys: 1,
+    CommNetwork: 1,
+  }, 
+
+  "電磁學(一)":{
+    CS: 1,
+    DSP: 1,
+    RF: 8,
+    ICS: 1,
+    BigE: 2,
+    SmallE: 2,
+    CommSys: 1,
+    CommNetwork: 1,
+  }, 
+
+  "訊號與系統":{
+    CS: 1,
+    DSP: 8,
+    RF: 2,
+    ICS: 2,
+    BigE: 2,
+    SmallE: 2,
+    CommSys: 8,
+    CommNetwork: 4,
+  }, 
+
+  "計算機組織":{
+    CS: 5,
+    DSP: 4,
+    RF: 1,
+    ICS: 5,
+    BigE: 1,
+    SmallE: 1,
+    CommSys: 3,
+    CommNetwork: 3,
+  }, 
+
+  "資料結構":{
+    CS: 5,
+    DSP:3,
+    RF: 1,
+    ICS: 2,
+    BigE: 2,
+    SmallE: 2,
+    CommSys: 3,
+    CommNetwork: 4,
+  }, 
+  
+  "電工實驗(一)":{
+    CS: 2,
+    DSP: 1,
+    RF: 6,
+    ICS: 5,
+    BigE: 2,
+    SmallE: 2,
+    CommSys: 2,
+    CommNetwork: 2,
+  }, 
+
+  "電工實驗(二)":{
+    CS: 2,
+    DSP: 1,
+    RF: 6,
+    ICS: 5,
+    BigE: 2,
+    SmallE: 2,
+    CommSys: 2,
+    CommNetwork: 2,
+  },
+
+  "再生能源導論":{
+    CS: 1,
+    DSP: 1,
+    RF: 1,
+    ICS: 1,
+    BigE: 7,
+    SmallE: 7,
+    CommSys: 1,
+    CommNetwork: 1,
   },
 };
 
@@ -230,19 +373,19 @@ function setRecommend(classname){
     let ICS=0;//晶片系統
     let BigE=0;//大電力
     let SmallE=0;//小電力
-    let commsys=0;//通訊系統
-    let commnetwork =0;//通訊網路
+    let CommSys=0;//通訊系統
+    let CommNetwork =0;//通訊網路
 
-      let scores = [
+    let scores = [
         { name: 'CS', score: 0 },
         { name: 'DSP', score: 0 },
         { name: 'RF', score: 0 },
         { name: 'ICS', score: 0 },
         { name: 'BigE', score: 0 },
         { name: 'SmallE', score: 0 },
-        { name: 'commsys', score: 0 },
-        { name: 'commnetwork', score: 0 }
-      ];
+        { name: 'CommSys', score: 0 },
+        { name: 'CommNetwork', score: 0 }
+    ];
   // if(classname[0].value=="線性代數"){
   //   console.log("hah i am a 線性代數");
   // }
@@ -267,8 +410,8 @@ function setRecommend(classname){
           ICS += (courseWeightage.ICS || 0) * parsedScore;
           BigE += (courseWeightage.BigE || 0) * parsedScore;
           SmallE += (courseWeightage.SmallE || 0) * parsedScore;
-          commsys += (courseWeightage.commsys || 0) * parsedScore;
-          commnetwork += (courseWeightage.commnetwork || 0) * parsedScore;
+          CommSys += (courseWeightage.CommSys || 0) * parsedScore;
+          CommNetwork += (courseWeightage.CommNetwork || 0) * parsedScore;
         }
         //console.log("CS is " + CS);
       }
@@ -280,8 +423,8 @@ function setRecommend(classname){
           { name: 'ICS', score: ICS },
           { name: 'BigE', score: BigE },
           { name: 'SmallE', score: SmallE },
-          { name: 'commsys', score: commsys },
-          { name: 'commnetwork', score: commnetwork }
+          { name: 'CommSys', score: CommSys },
+          { name: 'CommNetwork', score: CommNetwork }
         ];
         //對分數排序
         scores.sort((a, b) => b.score - a.score);
@@ -295,7 +438,7 @@ function setRecommend(classname){
         document.getElementById("result-group").innerText = topThreeNames;
         //document.getElementById("result-group").innerText = topThree[0].name;
 
-        // scores = { CS, DSP, RF, ICS, BigE, SmallE, commsys, commnetwork };
+        // scores = { CS, DSP, RF, ICS, BigE, SmallE, CommSys, CommNetwork };
         // //找到具有最大分數的組別
         // let maxScore = -Infinity;
         // let maxGroup = '';
@@ -306,7 +449,6 @@ function setRecommend(classname){
         //     }
         // }
         //console.log('Group with max score:', maxGroup);
-
   }
 }
 
