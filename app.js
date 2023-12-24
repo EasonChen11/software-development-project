@@ -4,20 +4,20 @@ let animation = document.querySelector("section.animation-wrapper");
 
 const timeline = new TimelineMax();
 
-//parameter1: target element
-//parameter2: duration
-//parameter3: 控制對象的原始狀態
-//parameter4: 控制對象的動畫結束後的狀態
-//parameter5: 動畫的速度曲線
-// timeline
-// .fromTo(hero, 1, {height: "0%" }, {height: "100%", ease: Power2.easeInOut })
-// .fromTo(hero, 1.2, {width: "80%" }, {width: "100%", ease: Power2.easeInOut })
-// .fromTo(slider, 1, {x: "-100%" }, {x: "0%", ease: Power2.easeInOut }, "-=1.2")
-// .fromTo(animation, 0.3, {opacity:1 }, {opacity:0 })
+// parameter1: target element
+// parameter2: duration
+// parameter3: 控制對象的原始狀態
+// parameter4: 控制對象的動畫結束後的狀態
+// parameter5: 動畫的速度曲線
+timeline
+.fromTo(hero, 1, {height: "0%" }, {height: "100%", ease: Power2.easeInOut })
+.fromTo(hero, 1.2, {width: "80%" }, {width: "100%", ease: Power2.easeInOut })
+.fromTo(slider, 1, {x: "-100%" }, {x: "0%", ease: Power2.easeInOut }, "-=1.2")
+.fromTo(animation, 0.3, {opacity:1 }, {opacity:0 })
 
-// window.setTimeout(()=>{
-//     animation.style.pointerEvents = "none";
-// },2500)  //2500後animation的pointerEvents會變成none，滑鼠點擊才會有反應
+window.setTimeout(()=>{
+    animation.style.pointerEvents = "none";
+},2500)  //2500後animation的pointerEvents會變成none，滑鼠點擊才會有反應
 
 
 //讓整個網站的ENTER KEY都無法使用
@@ -366,6 +366,29 @@ let weightage = {
   },
 };
 
+const groupURLs = {
+  'CS': 'https://www.104.com.tw/jobs/search/?ro=0&keyword=%E8%BB%9F%E9%AB%94&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=2018indexpoc&langFlag=0&langStatus=0&recommendJob=1&hotJob=1',
+  'DSP' : 'https://www.104.com.tw/jobs/search/?ro=0&keyword=DSP%20%E9%9F%8C%E9%AB%94%E5%B7%A5%E7%A8%8B%E5%B8%AB&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=2018indexpoc&langFlag=0&langStatus=0&recommendJob=1&hotJob=1',
+  'RF' : 'https://www.104.com.tw/jobs/search/?jobsource=index_s&keyword=RF&mode=s&page=1',
+  'ICS': 'https://www.104.com.tw/jobs/search/?ro=0&keyword=IC%E8%A8%AD%E8%A8%88&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=2018indexpoc&langFlag=0&langStatus=0&recommendJob=1&hotJob=1',
+  'BigE':'https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%9B%BB%E5%8A%9B%E5%B7%A5%E7%A8%8B%E5%B8%AB&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1' ,
+  'SmallE':'https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%9B%BB%E5%8A%9B%E5%B7%A5%E7%A8%8B%E5%B8%AB&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1' ,
+  'CommSys':'https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%80%9A%E8%A8%8A%E7%B3%BB%E7%B5%B1&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1' ,
+  'CommNetwork':'https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%80%9A%E8%A8%8A%E7%B6%B2%E8%B7%AF&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1'
+}
+
+const groupImages = {
+  'CS': './cs.png',
+  'DSP': './dsp.png',
+  'RF': './rf.png',
+  'ICS': './ics.png',
+  'BigE': './bige.png',
+  'SmallE': './smalle.png',
+  'CommSys': './commsys.png',
+  'CommNetwork': './commnet.png'
+  // Add image URLs for other groups
+};
+
 function setRecommend(classname){
     let CS=0;  //計算機組
     let DSP=0;//信號與智慧計算
@@ -390,7 +413,7 @@ function setRecommend(classname){
   //   console.log("hah i am a 線性代數");
   // }
 
-  if(classname.length ==8){
+  if( classname.length ==12 ){
       let formLength = document.querySelectorAll("form").length;
       let credits = document.querySelectorAll(".class-credit");
       let selects = document.querySelectorAll("select");
@@ -436,6 +459,29 @@ function setRecommend(classname){
         
         let topThreeNames = topThree.map(item => item.name).join(', ');
         document.getElementById("result-group").innerText = topThreeNames;
+
+       //放到more detail的地方
+
+       const names = topThree.map(item => item.name);
+      // Create clickable text for the top three recommended groups in the result-information section
+        const resultInformation = document.getElementById("result-information");
+        resultInformation.innerHTML = names.map(name => {
+            const url = groupURLs[name];
+            return `<a href="${url}" target="_blank" style="text-decoration: underline">${name}</a>`;
+        }).join(', ');
+
+       // Display images below the recommendations
+        const recommendImg = document.getElementById("result-img");
+        recommendImg.innerHTML = names.map(name => {
+            const imageUrl = groupImages[name];
+            return `<img src="${imageUrl}" alt="${name} Image" style="max-width: 550px; max-height: 550px; margin-bottom: 20px ">`;
+        }).join('');
+
+       // const names = topThree.map(item => item.name);
+       // const topThreeURLs = names.map(name => groupURLs[name]);
+       // const resultInformation = document.getElementById("result-information");
+        //resultInformation.innerHTML = topThreeURLs.map(url => `<a href="${url}"  target="_blank">${url}</a>`).join('<br>');
+
         //document.getElementById("result-group").innerText = topThree[0].name;
 
         // scores = { CS, DSP, RF, ICS, BigE, SmallE, CommSys, CommNetwork };

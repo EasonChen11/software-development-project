@@ -88,6 +88,9 @@ body main section.main-part h1 {
 body main section.main-part p {
   font-size: 1.15rem;
 }
+body main section.main-part div.all-inputs {
+  display: flex;
+}
 body main section.main-part div.all-inputs form input, body main section.main-part div.all-inputs form select {
   font-size: 1rem;
   padding: 0.5rem;
@@ -162,24 +165,24 @@ body main section.main-part div.recommend-result h2#result-group {
 }
 body main section.main-part div.information {
   margin-top: 30px;
-  width: 800px;
-  height: 300px;
-  border: 3px solid rgb(74, 93, 237);
+  width: 500px;
+  height: 200px;
+  border-radius: 20%;
+  border: 2px solid rgb(74, 93, 237);
   text-align: center;
 }
 body main section.main-part div.information p {
   margin-top: 30px;
+  font-size: 3rem;
 }
 body main section.main-part div.information h2#result-information {
   text-align: center;
-  font-size: 3.5rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 body main section.main-part div.information a {
   display: inline-block;
   padding: 8px 16px;
-  border: 2px solid #cdb7e3;
-  border-radius: 5px;
   text-decoration: none;
   color: white;
   transition: background-color 0.3s, color 0.3s;
@@ -187,6 +190,41 @@ body main section.main-part div.information a {
 body main section.main-part div.information a:hover {
   background-color: #272727;
   color: yellow;
+}
+body main section.main-part div.recommend-img {
+  margin-top: 30px;
+  width: 1900px;
+  height: 800px;
+  text-align: center;
+}
+body main section.main-part div.recommend-img p {
+  margin-top: 30px;
+  font-size: 3rem;
+}
+body main section.main-part div.recommend-img h2#result-information {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+body main section.main-part div.recommend-img a {
+  display: inline-block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: white;
+  transition: background-color 0.3s, color 0.3s;
+}
+body main section.main-part div.recommend-img a:hover {
+  background-color: #272727;
+  color: yellow;
+}
+body main section.main-part div.recommend-img img {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center items */
+  align-items: center; /* Horizontally center items */
+  margin-top: 10px;
+  display: block;
+  margin: 0 auto;
 }
 
 .remove {
