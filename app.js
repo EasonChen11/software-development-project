@@ -10,46 +10,56 @@ const timeline = new TimelineMax();
 // parameter4: 控制對象的動畫結束後的狀態
 // parameter5: 動畫的速度曲線
 timeline
-.fromTo(hero, 1, {height: "0%" }, {height: "100%", ease: Power2.easeInOut })
-.fromTo(hero, 1.2, {width: "80%" }, {width: "100%", ease: Power2.easeInOut })
-.fromTo(slider, 1, {x: "-100%" }, {x: "0%", ease: Power2.easeInOut }, "-=1.2")
-.fromTo(animation, 0.3, {opacity:1 }, {opacity:0 })
+  .fromTo(hero, 1, { height: "0%" }, { height: "100%", ease: Power2.easeInOut })
+  .fromTo(
+    hero,
+    1.2,
+    { width: "80%" },
+    { width: "100%", ease: Power2.easeInOut }
+  )
+  .fromTo(
+    slider,
+    1,
+    { x: "-100%" },
+    { x: "0%", ease: Power2.easeInOut },
+    "-=1.2"
+  )
+  .fromTo(animation, 0.3, { opacity: 1 }, { opacity: 0 });
 
-window.setTimeout(()=>{
-    animation.style.pointerEvents = "none";
-},2500)  //2500後animation的pointerEvents會變成none，滑鼠點擊才會有反應
-
+window.setTimeout(() => {
+  animation.style.pointerEvents = "none";
+}, 2500); //2500後animation的pointerEvents會變成none，滑鼠點擊才會有反應
 
 //讓整個網站的ENTER KEY都無法使用
-window.addEventListener("keypress",(e)=>{
-    if(e.key == "Enter"){
-        e.preventDefault();
-    }
+window.addEventListener("keypress", (e) => {
+  if (e.key == "Enter") {
+    e.preventDefault();
+  }
 });
 
 //防止FORM內部的BUTTON交出表單
 let allButtons = document.querySelectorAll("button");
-allButtons.forEach((button)=>{
-    button.addEventListener("click",(e)=>{
-        e.preventDefault();
-    });
+allButtons.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    e.preventDefault();
+  });
 });
 
 //選擇select內部的option之後，會改變select的顏色
 let allSelects = document.querySelectorAll("select");
-allSelects.forEach((select)=>{
-    select.addEventListener("change", (e)=>{
-        //setGPA();
-        changeColor(e.target) //e.target就是<select>
-    });
+allSelects.forEach((select) => {
+  select.addEventListener("change", (e) => {
+    //setGPA();
+    changeColor(e.target); //e.target就是<select>
+  });
 });
 
 //改變credits之後，GPA也會改變
 let credits = document.querySelectorAll(".class-credit");
-credits.forEach( (credit)=>{
-    credit.addEventListener("change", (e)=>{
-        //setGPA();
-    });
+credits.forEach((credit) => {
+  credit.addEventListener("change", (e) => {
+    //setGPA();
+  });
 });
 
 // //改變Score後，推薦也改變
@@ -64,164 +74,165 @@ credits.forEach( (credit)=>{
 //     });
 // });
 
-let calculateButton = document.getElementById('calculate-gpa');
+let calculateButton = document.getElementById("calculate-gpa");
 
-calculateButton.addEventListener('click', function() {
+calculateButton.addEventListener("click", function () {
   //確保year-section裡面的from裡面的元素量大於0
-  let formLength = document.querySelectorAll(".year-section form").item(0).childElementCount+document.querySelectorAll(".year-section form").item(1).childElementCount;
+  let formLength =
+    document.querySelectorAll(".year-section form").item(0).childElementCount +
+    document.querySelectorAll(".year-section form").item(1).childElementCount;
   // console.log(formLength);
-  if(formLength == 0){
+  if (formLength == 0) {
     alert("請加入課程！");
     return;
   }
   let scores = document.querySelectorAll(".year-section .Score");
   let classname = document.querySelectorAll(".year-section .class-type");
   //檢查是否所有課程都有填寫
-  let allCoursesEntered = Array.from(classname).every(course => course.value.trim() !== '');
+  let allCoursesEntered = Array.from(classname).every(
+    (course) => course.value.trim() !== ""
+  );
   // 检查是否所有的分数输入框都有值
-  let allScoresEntered = Array.from(scores).every(score => score.value.trim() !== '');
+  let allScoresEntered = Array.from(scores).every(
+    (score) => score.value.trim() !== ""
+  );
   //檢查所有學分是否都有填寫
-  let allCreditsEntered = Array.from(credits).every(credit => credit.value.trim() !== '');
+  let allCreditsEntered = Array.from(credits).every(
+    (credit) => credit.value.trim() !== ""
+  );
   if (!allCoursesEntered) {
-      alert("請填寫所有課程！");
-    }else if (!allScoresEntered) {
-        alert("请填寫所有成績！");
-    } else if(!allCreditsEntered){
-        alert("請填寫所有學分！");
-    }else{
-      console.log("classname",classname);
-      console.log("score",scores);
-      setGPA();
-      setRecommend(classname);
-    }
+    alert("請填寫所有課程！");
+  } else if (!allScoresEntered) {
+    alert("请填寫所有成績！");
+  } else if (!allCreditsEntered) {
+    alert("請填寫所有學分！");
+  } else {
+    console.log("classname", classname);
+    console.log("score", scores);
+    setGPA();
+    setRecommend(classname);
+  }
 });
 
-
 function changeColor(target) {
-    if (target.value == "A+" || target.value == "A-" || target.value == "A") {
-      target.style.backgroundColor = "lightgreen";
-      target.style.color = "black";
-    } else if (
-      target.value == "B" ||
-      target.value == "B-" ||
-      target.value == "B+"
-    ) {
-      target.style.backgroundColor = "yellow";
-      target.style.color = "black";
-    } else if (
-      target.value == "C" ||
-      target.value == "C-" ||
-      target.value == "C+"
-    ) {
-      target.style.backgroundColor = "orange";
-      target.style.color = "black";
-    } else if (
-      target.value == "D"
-    ) {
-      target.style.backgroundColor = "red";
-      target.style.color = "black";
-    } else if (target.value == "E") {
-      target.style.backgroundColor = "grey";
-      target.style.color = "white";
-    } else {
-      target.style.backgroundColor = "white";
-    }
+  if (target.value == "A+" || target.value == "A-" || target.value == "A") {
+    target.style.backgroundColor = "lightgreen";
+    target.style.color = "black";
+  } else if (
+    target.value == "B" ||
+    target.value == "B-" ||
+    target.value == "B+"
+  ) {
+    target.style.backgroundColor = "yellow";
+    target.style.color = "black";
+  } else if (
+    target.value == "C" ||
+    target.value == "C-" ||
+    target.value == "C+"
+  ) {
+    target.style.backgroundColor = "orange";
+    target.style.color = "black";
+  } else if (target.value == "D") {
+    target.style.backgroundColor = "red";
+    target.style.color = "black";
+  } else if (target.value == "E") {
+    target.style.backgroundColor = "grey";
+    target.style.color = "white";
+  } else {
+    target.style.backgroundColor = "white";
+  }
 }
 
 function convertor(grade) {
-    switch (grade) {
-      case "A+":
-        return 4.3;
-      case "A":
-        return 4;
-        case "A-":
-        return 3.7;
-      case "B+":
-        return 3.3;
-      case "B":
-        return 3; 
-      case "B-":
-        return 2.7;
-      case "C+":
-        return 2.3;
-      case "C":
-        return 2.0;
-      case "C-":
-        return 1.7;
-      case "D":
-        return 1.0;
-      case "E":
-        return 0.0;
-      default:
-        return 0;
-    }
+  switch (grade) {
+    case "A+":
+      return 4.3;
+    case "A":
+      return 4;
+    case "A-":
+      return 3.7;
+    case "B+":
+      return 3.3;
+    case "B":
+      return 3;
+    case "B-":
+      return 2.7;
+    case "C+":
+      return 2.3;
+    case "C":
+      return 2.0;
+    case "C-":
+      return 1.7;
+    case "D":
+      return 1.0;
+    case "E":
+      return 0.0;
+    default:
+      return 0;
+  }
 }
 
-function setGPA(){
+function setGPA() {
   let formLength = document.querySelectorAll("form").length;
-  let firstYearCredits = document.querySelectorAll(".first-year-section .class-credit");
-  let secondYearCredits = document.querySelectorAll(".second-year-section .class-credit");
-  let credits = [...firstYearCredits, ...secondYearCredits];
+  let credits = document.querySelectorAll(".year-section .class-credit");
   //let credits = document.querySelectorAll(".class-credit");
-  let firstYearSelects = document.querySelectorAll(".first-year-section .select");
-  let secondYearSelects = document.querySelectorAll(".second-year-section .select");
-  let selects = [...firstYearSelects, ...secondYearSelects];
+  let selects = document.querySelectorAll(".year-section .select");
   //let selects = document.querySelectorAll("select");
   let score = document.querySelectorAll(".Score");
-  let sum=0; //GPA計算用分子
-  let creditSum=0; //GPA計算用分母
+  let sum = 0; //GPA計算用分子
+  let creditSum = 0; //GPA計算用分母
 
-  for(let i=0;i<credits.length;i++){
-      //console.log(credits[i]);
-      if(!isNaN(credits[i].valueAsNumber)){
-          creditSum += credits[i].valueAsNumber;
-      }
-      //console.log(creditSum);
+  for (let i = 0; i < credits.length; i++) {
+    //console.log(credits[i]);
+    if (!isNaN(credits[i].valueAsNumber)) {
+      creditSum += credits[i].valueAsNumber;
+    }
+    //console.log(creditSum);
   }
 
-  for(let i=0;i<credits.length;i++){
-      if(!isNaN(credits[i].valueAsNumber)){
-          sum += (credits[i].valueAsNumber * convertor(selects[i].value));
-      }
+  for (let i = 0; i < credits.length; i++) {
+    if (!isNaN(credits[i].valueAsNumber)) {
+      sum += credits[i].valueAsNumber * convertor(selects[i].value);
+    }
   }
-  
+
   //console.log("sum is " + sum);
   //console.log("creditSum is " + creditSum);
 
   let result;
-  if(creditSum == 0){
-      result=(0.0).toFixed(2);
-  }else{
-      result = (sum / creditSum).toFixed(2);
+  if (creditSum == 0) {
+    result = (0.0).toFixed(2);
+  } else {
+    result = (sum / creditSum).toFixed(2);
   }
   console.log(result);
   document.getElementById("result-gpa").innerText = result;
 }
 
 let weightage = {
-"線性代數": {
-        CS: 4,
-        DSP: 4,
-        RF: 3,
-        ICS: 3,
-        BigE: 3,
-        SmallE: 3,
-        CommSys: 5,
-        CommNetwork: 4,
+  線性代數: {
+    CS: 4,
+    DSP: 4,
+    RF: 3,
+    ICS: 3,
+    BigE: 3,
+    SmallE: 3,
+    CommSys: 5,
+    CommNetwork: 4,
   },
 
-  "邏輯設計": {
-      CS: 2,
-      DSP: 3,
-      RF: 4,
-      ICS: 5,
-      BigE: 2,
-      SmallE: 2,
-      CommSys: 3,
-      CommNetwork: 2,
+  邏輯設計: {
+    CS: 2,
+    DSP: 3,
+    RF: 4,
+    ICS: 5,
+    BigE: 2,
+    SmallE: 2,
+    CommSys: 3,
+    CommNetwork: 2,
   },
 
-  "邏輯設計實驗": {
+  邏輯設計實驗: {
     CS: 1,
     DSP: 3,
     RF: 4,
@@ -232,7 +243,7 @@ let weightage = {
     CommNetwork: 3,
   },
 
-  "程式設計": {
+  程式設計: {
     CS: 5,
     DSP: 3,
     RF: 2,
@@ -243,7 +254,7 @@ let weightage = {
     CommNetwork: 4,
   },
 
-  "程式設計實習": {
+  程式設計實習: {
     CS: 5,
     DSP: 3,
     RF: 2,
@@ -254,7 +265,7 @@ let weightage = {
     CommNetwork: 4,
   },
 
-  "計算機概論": {
+  計算機概論: {
     CS: 5,
     DSP: 2,
     RF: 2,
@@ -265,7 +276,7 @@ let weightage = {
     CommNetwork: 4,
   },
 
-  "機率":{
+  機率: {
     CS: 3,
     DSP: 4,
     RF: 3,
@@ -274,9 +285,9 @@ let weightage = {
     SmallE: 4,
     CommSys: 6,
     CommNetwork: 5,
-  },  
+  },
 
-  "微分方程":{
+  微分方程: {
     CS: 2,
     DSP: 6,
     RF: 2,
@@ -285,9 +296,9 @@ let weightage = {
     SmallE: 5,
     CommSys: 6,
     CommNetwork: 3,
-  }, 
+  },
 
-  "電子學(一)":{
+  "電子學(一)": {
     CS: 2,
     DSP: 2,
     RF: 6,
@@ -296,9 +307,9 @@ let weightage = {
     SmallE: 2,
     CommSys: 1,
     CommNetwork: 1,
-  }, 
+  },
 
-  "電子學(二)":{
+  "電子學(二)": {
     CS: 2,
     DSP: 2,
     RF: 6,
@@ -307,9 +318,9 @@ let weightage = {
     SmallE: 2,
     CommSys: 1,
     CommNetwork: 1,
-  }, 
+  },
 
-  "電路學(一)":{
+  "電路學(一)": {
     CS: 1,
     DSP: 2,
     RF: 3,
@@ -318,9 +329,9 @@ let weightage = {
     SmallE: 8,
     CommSys: 1,
     CommNetwork: 1,
-  }, 
+  },
 
-  "電路學(二)":{
+  "電路學(二)": {
     CS: 1,
     DSP: 2,
     RF: 3,
@@ -329,9 +340,9 @@ let weightage = {
     SmallE: 8,
     CommSys: 1,
     CommNetwork: 1,
-  }, 
+  },
 
-  "電磁學(一)":{
+  "電磁學(一)": {
     CS: 1,
     DSP: 1,
     RF: 8,
@@ -340,9 +351,9 @@ let weightage = {
     SmallE: 2,
     CommSys: 1,
     CommNetwork: 1,
-  }, 
+  },
 
-  "訊號與系統":{
+  訊號與系統: {
     CS: 1,
     DSP: 8,
     RF: 2,
@@ -351,9 +362,9 @@ let weightage = {
     SmallE: 2,
     CommSys: 8,
     CommNetwork: 4,
-  }, 
+  },
 
-  "計算機組織":{
+  計算機組織: {
     CS: 5,
     DSP: 4,
     RF: 1,
@@ -362,31 +373,20 @@ let weightage = {
     SmallE: 1,
     CommSys: 3,
     CommNetwork: 3,
-  }, 
+  },
 
-  "資料結構":{
+  資料結構: {
     CS: 5,
-    DSP:3,
+    DSP: 3,
     RF: 1,
     ICS: 2,
     BigE: 2,
     SmallE: 2,
     CommSys: 3,
     CommNetwork: 4,
-  }, 
-  
-  "電工實驗(一)":{
-    CS: 2,
-    DSP: 1,
-    RF: 6,
-    ICS: 5,
-    BigE: 2,
-    SmallE: 2,
-    CommSys: 2,
-    CommNetwork: 2,
-  }, 
+  },
 
-  "電工實驗(二)":{
+  "電工實驗(一)": {
     CS: 2,
     DSP: 1,
     RF: 6,
@@ -397,7 +397,18 @@ let weightage = {
     CommNetwork: 2,
   },
 
-  "再生能源導論":{
+  "電工實驗(二)": {
+    CS: 2,
+    DSP: 1,
+    RF: 6,
+    ICS: 5,
+    BigE: 2,
+    SmallE: 2,
+    CommSys: 2,
+    CommNetwork: 2,
+  },
+
+  再生能源導論: {
     CS: 1,
     DSP: 1,
     RF: 1,
@@ -410,135 +421,142 @@ let weightage = {
 };
 
 const groupURLs = {
-  'CS': 'https://www.104.com.tw/jobs/search/?ro=0&keyword=%E8%BB%9F%E9%AB%94&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=2018indexpoc&langFlag=0&langStatus=0&recommendJob=1&hotJob=1',
-  'DSP' : 'https://www.104.com.tw/jobs/search/?ro=0&keyword=DSP%20%E9%9F%8C%E9%AB%94%E5%B7%A5%E7%A8%8B%E5%B8%AB&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=2018indexpoc&langFlag=0&langStatus=0&recommendJob=1&hotJob=1',
-  'RF' : 'https://www.104.com.tw/jobs/search/?jobsource=index_s&keyword=RF&mode=s&page=1',
-  'ICS': 'https://www.104.com.tw/jobs/search/?ro=0&keyword=IC%E8%A8%AD%E8%A8%88&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=2018indexpoc&langFlag=0&langStatus=0&recommendJob=1&hotJob=1',
-  'BigE':'https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%9B%BB%E5%8A%9B%E5%B7%A5%E7%A8%8B%E5%B8%AB&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1' ,
-  'SmallE':'https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%9B%BB%E5%8A%9B%E5%B7%A5%E7%A8%8B%E5%B8%AB&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1' ,
-  'CommSys':'https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%80%9A%E8%A8%8A%E7%B3%BB%E7%B5%B1&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1' ,
-  'CommNetwork':'https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%80%9A%E8%A8%8A%E7%B6%B2%E8%B7%AF&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1'
-}
+  CS: "https://www.104.com.tw/jobs/search/?ro=0&keyword=%E8%BB%9F%E9%AB%94&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=2018indexpoc&langFlag=0&langStatus=0&recommendJob=1&hotJob=1",
+  DSP: "https://www.104.com.tw/jobs/search/?ro=0&keyword=DSP%20%E9%9F%8C%E9%AB%94%E5%B7%A5%E7%A8%8B%E5%B8%AB&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=2018indexpoc&langFlag=0&langStatus=0&recommendJob=1&hotJob=1",
+  RF: "https://www.104.com.tw/jobs/search/?jobsource=index_s&keyword=RF&mode=s&page=1",
+  ICS: "https://www.104.com.tw/jobs/search/?ro=0&keyword=IC%E8%A8%AD%E8%A8%88&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=2018indexpoc&langFlag=0&langStatus=0&recommendJob=1&hotJob=1",
+  BigE: "https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%9B%BB%E5%8A%9B%E5%B7%A5%E7%A8%8B%E5%B8%AB&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1",
+  SmallE:
+    "https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%9B%BB%E5%8A%9B%E5%B7%A5%E7%A8%8B%E5%B8%AB&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1",
+  CommSys:
+    "https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%80%9A%E8%A8%8A%E7%B3%BB%E7%B5%B1&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1",
+  CommNetwork:
+    "https://www.104.com.tw/jobs/search/?ro=0&keyword=%E9%80%9A%E8%A8%8A%E7%B6%B2%E8%B7%AF&expansionType=area%2Cspec%2Ccom%2Cjob%2Cwf%2Cwktm&order=1&asc=0&page=1&mode=s&jobsource=index_s&langFlag=0&langStatus=0&recommendJob=1&hotJob=1",
+};
 
 const groupImages = {
-  'CS': './figures/cs.png',
-  'DSP': './figures/dsp.png',
-  'RF': './figures/rf.png',
-  'ICS': './figures/ics.png',
-  'BigE': './figures/bige.png',
-  'SmallE': './figures/smalle.png',
-  'CommSys': './figures/commsys.png',
-  'CommNetwork': './figures/commnet.png'
+  CS: "./figures/cs.png",
+  DSP: "./figures/dsp.png",
+  RF: "./figures/rf.png",
+  ICS: "./figures/ics.png",
+  BigE: "./figures/bige.png",
+  SmallE: "./figures/smalle.png",
+  CommSys: "./figures/commsys.png",
+  CommNetwork: "./figures/commnet.png",
   // Add image URLs for other groups
 };
 
-function setRecommend(classname){
-    let CS=0;  //計算機組
-    let DSP=0;//信號與智慧計算
-    let RF=0;//電磁晶片
-    let ICS=0;//晶片系統
-    let BigE=0;//大電力
-    let SmallE=0;//小電力
-    let CommSys=0;//通訊系統
-    let CommNetwork =0;//通訊網路
+function setRecommend(classname) {
+  let CS = 0; //計算機組
+  let DSP = 0; //信號與智慧計算
+  let RF = 0; //電磁晶片
+  let ICS = 0; //晶片系統
+  let BigE = 0; //大電力
+  let SmallE = 0; //小電力
+  let CommSys = 0; //通訊系統
+  let CommNetwork = 0; //通訊網路
 
-    let scores = [
-        { name: 'CS', score: 0 },
-        { name: 'DSP', score: 0 },
-        { name: 'RF', score: 0 },
-        { name: 'ICS', score: 0 },
-        { name: 'BigE', score: 0 },
-        { name: 'SmallE', score: 0 },
-        { name: 'CommSys', score: 0 },
-        { name: 'CommNetwork', score: 0 }
-    ];
+  let scores = [
+    { name: "CS", score: 0 },
+    { name: "DSP", score: 0 },
+    { name: "RF", score: 0 },
+    { name: "ICS", score: 0 },
+    { name: "BigE", score: 0 },
+    { name: "SmallE", score: 0 },
+    { name: "CommSys", score: 0 },
+    { name: "CommNetwork", score: 0 },
+  ];
   // if(classname[0].value=="線性代數"){
   //   console.log("hah i am a 線性代數");
   // }
 
   // if( classname.length ==12 ){
-      let formLength = document.querySelectorAll("form").length;
-      let credits = document.querySelectorAll(".class-credit");
-      let selects = document.querySelectorAll("select");
-      let score = document.querySelectorAll(".Score");
-      
-      for(let i = 0; i < classname.length; i++){
-        //console.log(classname[i].value);
-        let course = classname[i].value;
-        let courseWeightage = weightage[course]; //獲取該課程的權重
-        console.log(courseWeightage);
-        let parsedScore = parseInt(score[i].value);
-        if(courseWeightage){
-          // 對每個組別對應的權重乘以分數，並加總
-          CS += (courseWeightage.CS || 0) * parsedScore;
-          DSP += (courseWeightage.DSP || 0) * parsedScore;
-          RF += (courseWeightage.RF || 0) * parsedScore;
-          ICS += (courseWeightage.ICS || 0) * parsedScore;
-          BigE += (courseWeightage.BigE || 0) * parsedScore;
-          SmallE += (courseWeightage.SmallE || 0) * parsedScore;
-          CommSys += (courseWeightage.CommSys || 0) * parsedScore;
-          CommNetwork += (courseWeightage.CommNetwork || 0) * parsedScore;
-        }
-        //console.log("CS is " + CS);
-      }
-        // 將每個組別的分數存入陣列
-        scores = [
-          { name: 'CS', score: CS },
-          { name: 'DSP', score: DSP },
-          { name: 'RF', score: RF },
-          { name: 'ICS', score: ICS },
-          { name: 'BigE', score: BigE },
-          { name: 'SmallE', score: SmallE },
-          { name: 'CommSys', score: CommSys },
-          { name: 'CommNetwork', score: CommNetwork }
-        ];
-        //對分數排序
-        scores.sort((a, b) => b.score - a.score);
+  let formLength = document.querySelectorAll("form").length;
+  let credits = document.querySelectorAll(".class-credit");
+  let selects = document.querySelectorAll("select");
+  let score = document.querySelectorAll(".Score");
 
-        // 選出前三名
-        let topThree = scores.slice(0, 3);
-        console.log('Top three groups:', topThree);
-        console.log(typeof topThree[0].name);
-        
-        let topThreeNames = topThree.map(item => item.name).join(', ');
-        document.getElementById("result-group").innerText = topThreeNames;
-
-       //放到more detail的地方
-
-       const names = topThree.map(item => item.name);
-      // Create clickable text for the top three recommended groups in the result-information section
-        const resultInformation = document.getElementById("result-information");
-        resultInformation.innerHTML = names.map(name => {
-            const url = groupURLs[name];
-            return `<a href="${url}" target="_blank" style="text-decoration: underline">${name}</a>`;
-        }).join(', ');
-
-       // Display images below the recommendations
-        const recommendImg = document.getElementById("result-img");
-        recommendImg.innerHTML = names.map(name => {
-            const imageUrl = groupImages[name];
-            return `<img src="${imageUrl}" alt="${name} Image" style="max-width: 550px; max-height: 550px; margin-bottom: 20px ">`;
-        }).join('');
-
-       // const names = topThree.map(item => item.name);
-       // const topThreeURLs = names.map(name => groupURLs[name]);
-       // const resultInformation = document.getElementById("result-information");
-        //resultInformation.innerHTML = topThreeURLs.map(url => `<a href="${url}"  target="_blank">${url}</a>`).join('<br>');
-
-        //document.getElementById("result-group").innerText = topThree[0].name;
-
-        // scores = { CS, DSP, RF, ICS, BigE, SmallE, CommSys, CommNetwork };
-        // //找到具有最大分數的組別
-        // let maxScore = -Infinity;
-        // let maxGroup = '';
-        // for (const group in scores) {
-        //     if (scores[group] > maxScore) {
-        //         maxScore = scores[group];
-        //         maxGroup = group;
-        //     }
-        // }
-        //console.log('Group with max score:', maxGroup);
+  for (let i = 0; i < classname.length; i++) {
+    //console.log(classname[i].value);
+    let course = classname[i].value;
+    let courseWeightage = weightage[course]; //獲取該課程的權重
+    console.log(courseWeightage);
+    let parsedScore = parseInt(score[i].value);
+    if (courseWeightage) {
+      // 對每個組別對應的權重乘以分數，並加總
+      CS += (courseWeightage.CS || 0) * parsedScore;
+      DSP += (courseWeightage.DSP || 0) * parsedScore;
+      RF += (courseWeightage.RF || 0) * parsedScore;
+      ICS += (courseWeightage.ICS || 0) * parsedScore;
+      BigE += (courseWeightage.BigE || 0) * parsedScore;
+      SmallE += (courseWeightage.SmallE || 0) * parsedScore;
+      CommSys += (courseWeightage.CommSys || 0) * parsedScore;
+      CommNetwork += (courseWeightage.CommNetwork || 0) * parsedScore;
+    }
+    //console.log("CS is " + CS);
   }
+  // 將每個組別的分數存入陣列
+  scores = [
+    { name: "CS", score: CS },
+    { name: "DSP", score: DSP },
+    { name: "RF", score: RF },
+    { name: "ICS", score: ICS },
+    { name: "BigE", score: BigE },
+    { name: "SmallE", score: SmallE },
+    { name: "CommSys", score: CommSys },
+    { name: "CommNetwork", score: CommNetwork },
+  ];
+  //對分數排序
+  scores.sort((a, b) => b.score - a.score);
+
+  // 選出前三名
+  let topThree = scores.slice(0, 3);
+  console.log("Top three groups:", topThree);
+  console.log(typeof topThree[0].name);
+
+  let topThreeNames = topThree.map((item) => item.name).join(", ");
+  document.getElementById("result-group").innerText = topThreeNames;
+
+  //放到more detail的地方
+
+  const names = topThree.map((item) => item.name);
+  // Create clickable text for the top three recommended groups in the result-information section
+  const resultInformation = document.getElementById("result-information");
+  resultInformation.innerHTML = names
+    .map((name) => {
+      const url = groupURLs[name];
+      return `<a href="${url}" target="_blank" style="text-decoration: underline">${name}</a>`;
+    })
+    .join(", ");
+
+  // Display images below the recommendations
+  const recommendImg = document.getElementById("result-img");
+  recommendImg.innerHTML = names
+    .map((name) => {
+      const imageUrl = groupImages[name];
+      return `<img src="${imageUrl}" alt="${name} Image" style="max-width: 550px; max-height: 550px; margin-bottom: 20px ">`;
+    })
+    .join("");
+
+  // const names = topThree.map(item => item.name);
+  // const topThreeURLs = names.map(name => groupURLs[name]);
+  // const resultInformation = document.getElementById("result-information");
+  //resultInformation.innerHTML = topThreeURLs.map(url => `<a href="${url}"  target="_blank">${url}</a>`).join('<br>');
+
+  //document.getElementById("result-group").innerText = topThree[0].name;
+
+  // scores = { CS, DSP, RF, ICS, BigE, SmallE, CommSys, CommNetwork };
+  // //找到具有最大分數的組別
+  // let maxScore = -Infinity;
+  // let maxGroup = '';
+  // for (const group in scores) {
+  //     if (scores[group] > maxScore) {
+  //         maxScore = scores[group];
+  //         maxGroup = group;
+  //     }
+  // }
+  //console.log('Group with max score:', maxGroup);
+}
 // }
 
 // let addButton = document.querySelector(".plus-btn");
@@ -648,7 +666,7 @@ function setRecommend(classname){
 //     newButton.classList.add("trash-button");
 //     let newItag = document.createElement("i");
 //     newItag.classList.add("fas");
-//     newItag.classList.add("fa-trash"); 
+//     newItag.classList.add("fa-trash");
 
 //     newButton.appendChild(newItag);
 
@@ -671,7 +689,7 @@ function setRecommend(classname){
 //     newForm.appendChild(newDiv);
 //     document.querySelector(".all-inputs").appendChild(newForm);
 //     newForm.style.animation = "scaleUp 0.5s ease forwards";
-    
+
 // });
 
 // let allTrash = document.querySelectorAll(".trash-button");
@@ -688,45 +706,125 @@ function setRecommend(classname){
 //         setGPA();        //刪除之後要重新計算GPA
 //     });
 // });
-
 function createFormElement(year) {
   // 创建一个新的 div 元素
   var newDiv = document.createElement("div");
   newDiv.className = "grader";
 
-// // 创建课程名称输入框
-// var inputCourse = document.createElement("select");
-// inputCourse.setAttribute("type", "text");
-// inputCourse.setAttribute("placeholder", "課程名稱");
-// inputCourse.className = "class-type";
-// if (year == 1)
-//   inputCourse.setAttribute("list", "EE1"); // 设置对应的datalist ID
-// else if (year == 2)
-//   inputCourse.setAttribute("list", "EE2"); // 设置对应的datalist ID
-// newDiv.appendChild(inputCourse);
+  // // 创建课程名称输入框
+  // var inputCourse = document.createElement("select");
+  // inputCourse.setAttribute("type", "text");
+  // inputCourse.setAttribute("placeholder", "課程名稱");
+  // inputCourse.className = "class-type";
+  // if (year == 1)
+  //   inputCourse.setAttribute("list", "EE1"); // 设置对应的datalist ID
+  // else if (year == 2)
+  //   inputCourse.setAttribute("list", "EE2"); // 设置对应的datalist ID
+  // newDiv.appendChild(inputCourse);
 
-var selectCourse = document.createElement("select");
-selectCourse.className = "class-type";
-console.log(selectCourse);
-// 添加一个空的默认选项
-var defaultOption = document.createElement("option");
-defaultOption.textContent = "請選擇課程"; // 你可以在这里设置一些提示性的文本
-defaultOption.value = "";
-selectCourse.appendChild(defaultOption);
-if(year == 1)
-  var courses = ["線性代數", "邏輯設計", "邏輯設計實驗", "程式設計", "程式設計實習", "計算機概論"];
+  var selectCourse = document.createElement("select");
+  selectCourse.className = "class-type";
+  // console.log(selectCourse);
+  // 添加一个空的默认选项
+  // var defaultOption = document.createElement("option");
+  // defaultOption.textContent = "請選擇課程"; // 你可以在这里设置一些提示性的文本
+  // defaultOption.value = "";
+  // selectCourse.appendChild(defaultOption);
+  if (year == 1)
+    var courses = [
+      "線性代數",
+      "邏輯設計",
+      "邏輯設計實驗",
+      "程式設計",
+      "程式設計實習",
+      "計算機概論",
+    ];
+  else if (year == 2)
+    var courses = [
+      "機率",
+      "微分方程",
+      "電子學（一）",
+      "電子學（二）",
+      "電路學（一）",
+      "電路學（二）",
+      "電磁學（一）",
+      "訊號與系統",
+      "計算機組織",
+      "資料結構",
+      "電工實驗（一）",
+      "電工實驗（二）",
+      "再生能源導論",
+    ];
 
-else if(year == 2)
-  var courses = ["機率", "微分方程", "電子學（一）", "電子學（二）", "電路學（一）", "電路學（二）", "電磁學（一）", "訊號與系統", "計算機組織", "資料結構", "電工實驗（一）", "電工實驗（二）", "再生能源導論"];
-courses.forEach(function(courseName) {
-    var option = document.createElement("option");
-    option.value = courseName;
-    option.textContent = courseName;
-    selectCourse.appendChild(option);
-});
-newDiv.appendChild(selectCourse);
+  // selectCourse.addEventListener("click", function () {
+  //   let otherSelects = document.querySelectorAll(".class-type");
+  //   let otherSelectsArray = Array.from(otherSelects);
+  //   let otherSelectsValues = otherSelectsArray.map((select) => select.value);
 
+  //   console.log("otherSelectsValues", otherSelectsValues);
 
+  //   courses.forEach(function (courseName) {
+  //     if (
+  //       !otherSelectsValues.includes(courseName) &&
+  //       !isCourseSelectedInSelf(selectCourse, courseName)
+  //     ) {
+  //       var option = document.createElement("option");
+  //       option.value = courseName;
+  //       option.textContent = courseName;
+  //       selectCourse.appendChild(option);
+  //     }
+  //   });
+  //   console.log("selectCourse", selectCourse);
+  // });
+
+  // function isCourseSelectedInSelf(selectElement, courseName) {
+  //   for (let i = 0; i < selectElement.childElementCount; i++) {
+  //     if (selectElement.children[i].value === courseName) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
+
+  selectCourse.addEventListener("click", function () {
+    var optionList = selectCourse.querySelectorAll("option");
+    var optionValueList = Array.from(optionList).map((option) => option.value);
+    var selectList = document.querySelectorAll(".class-type");
+    var otherSelected = Array.from(selectList).map((select) => select.value);
+    // if (!otherSelected.includes(selectCourse.value)) {
+    //   otherSelected.push(selectCourse.value);
+    // }
+    courses.forEach(function (courseName) {
+      if (
+        optionValueList.indexOf(courseName) === -1 &&
+        otherSelected.indexOf(courseName) === -1
+      ) {
+        //不在自己中，且不再其他選擇的課程中
+        var option = document.createElement("option");
+        option.value = courseName;
+        option.textContent = courseName;
+        selectCourse.appendChild(option);
+      }
+    });
+
+    optionList.forEach(function (option) {
+      if (
+        otherSelected.indexOf(option.value) !== -1 &&
+        selectCourse.value !== option.value
+      ) {
+        //在其他選擇的課程中，且不是自己選的課程
+        option.remove();
+      } //先把所有的option都加進去，再把不要的刪掉
+    });
+  });
+  // 添加默认选项
+  var defaultOption = document.createElement("option");
+  defaultOption.textContent = "請選擇課程";
+  defaultOption.value = "";
+  defaultOption.hidden = true;
+  selectCourse.appendChild(defaultOption);
+
+  newDiv.appendChild(selectCourse);
 
   // 添加分数输入框
   var inputScore = document.createElement("input");
@@ -743,83 +841,99 @@ newDiv.appendChild(selectCourse);
   inputCredit.setAttribute("max", "6");
   inputCredit.className = "class-credit";
   newDiv.appendChild(inputCredit);
-// 添加事件监听器 填入輸入的課程名稱後，自動填入學分
-  selectCourse.addEventListener('input', function() {
-    const creditInput = this.closest('.grader').querySelector('.class-credit');
+  // 添加事件监听器 填入輸入的課程名稱後，自動填入學分
+  selectCourse.addEventListener("input", function () {
+    const creditInput = this.closest(".grader").querySelector(".class-credit");
     const selectedCourse = this.value;
     const credits = courseCredits[selectedCourse];
     if (credits) {
-        creditInput.value = credits;
+      creditInput.value = credits;
     }
-});
+  });
 
   // 添加评级选择框
   var selectGrade = document.createElement("select");
   selectGrade.name = "select";
   selectGrade.className = "select";
-  ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D", "E"].forEach(function(grade) {
-    var option = document.createElement("option");
-    option.value = grade;
-    option.textContent = grade;
-    selectGrade.appendChild(option);
-  });
+  ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D", "E"].forEach(
+    function (grade) {
+      var option = document.createElement("option");
+      option.value = grade;
+      option.textContent = grade;
+      selectGrade.appendChild(option);
+    }
+  );
   newDiv.appendChild(selectGrade);
 
-// 添加删除按钮
-var deleteButton = document.createElement("button");
-deleteButton.className = "trash-button";
-deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
-deleteButton.type = 'button'; // 防止按钮默认提交表单
+  // 添加删除按钮
+  var deleteButton = document.createElement("button");
+  deleteButton.className = "trash-button";
+  deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+  deleteButton.type = "button"; // 防止按钮默认提交表单
 
-// 添加事件监听器，处理点击事件
-deleteButton.addEventListener('click', function(event) {
+  // 添加事件监听器，处理点击事件
+  deleteButton.addEventListener("click", function (event) {
     event.preventDefault(); // 防止表单提交
+
+    var selectList = document.querySelectorAll(".class-type");
+    var otherSelected = Array.from(selectList).map((select) => select.value);
+
+    var select = newDiv.querySelector(".class-type");
+    otherSelected.splice(otherSelected.indexOf(select.value), 1);
+
     newDiv.remove(); // 删除当前元素
     //setGPA();
-});
+  });
 
-newDiv.appendChild(deleteButton);
-return newDiv;
-
+  newDiv.appendChild(deleteButton);
+  return newDiv;
 }
 
 // 动态添加表单元素到页面
 function addFormElement(year) {
-  if(year == 1)
-  var formContainer = document.querySelector(".first-year-section form");
-  else if(year == 2)
-  var formContainer = document.querySelector(".second-year-section form");
+  if (year == 1) {
+    var formContainer = document.querySelector(".first-year-section form");
+  } else if (year == 2) {
+    var formContainer = document.querySelector(".second-year-section form");
+  }
   formContainer.appendChild(createFormElement(year));
 }
 
-// 为“添加课程”按钮添加事件监听器
-document.getElementById("add-first-year-course").addEventListener("click", function() {
-  addFormElement(1);
-});
-document.getElementById("add-second-year-course").addEventListener("click", function() {
-  addFormElement(2);
-});
-
+document
+  .getElementById("add-first-year-course")
+  .addEventListener("click", function () {
+    var selectList = document.querySelectorAll(
+      ".first-year-section .class-type"
+    );
+    if (selectList.length < 6) addFormElement(1);
+  });
+document
+  .getElementById("add-second-year-course")
+  .addEventListener("click", function () {
+    var selectList = document.querySelectorAll(
+      ".second-year-section .class-type"
+    );
+    if (selectList.length < 13) addFormElement(2);
+  });
 
 const courseCredits = {
-  "線性代數": 3,
-  "程式設計": 3,
-  "程式設計實習": 1,
-  "計算機概論": 3,
-  "邏輯設計": 3,
-  "邏輯設計實驗": 1,
-  "機率": 3,
-  "微分方程": 3,
+  線性代數: 3,
+  程式設計: 3,
+  程式設計實習: 1,
+  計算機概論: 3,
+  邏輯設計: 3,
+  邏輯設計實驗: 1,
+  機率: 3,
+  微分方程: 3,
   "電子學（一）": 3,
   "電子學（二）": 3,
   "電路學（一）": 3,
   "電路學（二）": 3,
   "電磁學（一）": 3,
-  "訊號與系統": 3,
-  "計算機組織": 3,
-  "資料結構": 3,
+  訊號與系統: 3,
+  計算機組織: 3,
+  資料結構: 3,
   "電工實驗（一）": 1,
   "電工實驗（二）": 1,
-  "再生能源導論": 3
+  再生能源導論: 3,
 };
-
