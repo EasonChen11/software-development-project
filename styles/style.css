@@ -90,6 +90,7 @@ body main section.main-part p {
 }
 body main section.main-part div.all-inputs {
   display: flex;
+  flex-direction: column;
 }
 body main section.main-part div.all-inputs form input, body main section.main-part div.all-inputs form select {
   font-size: 1rem;
@@ -115,13 +116,13 @@ body main section.main-part div.year-section {
   flex: 1;
   margin: 0 10px;
 }
-body main section.main-part button.plus-btn {
+/*body main section.main-part button.plus-btn {
   background-color: #272727;
   border: none;
   width: 2.5rem;
   margin: 3rem 0rem;
   cursor: pointer;
-}
+  }*/
 body main section.main-part button.plus-btn i {
   font-size: 2.5rem;
   color: white;
@@ -259,3 +260,59 @@ body main section.main-part div.recommend-img img {
     border-color: yellow;
   }
 }/*# sourceMappingURL=style.css.map */
+#calculate-gpa {
+  font-size: 20px; /* 较大的字体 */
+  margin: 9px; /* 居中显示 */
+  padding: 10px 20px; /* 增加内边距 */
+  background-color: #4CAF50; /* 醒目的背景色 */
+  color: white; /* 白色文字 */
+  border: none; /* 无边框 */
+  border-radius: 5px; /* 圆角 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+  cursor: pointer; /* 鼠标悬停时的手形光标 */
+}
+
+#calculate-gpa:hover {
+  background-color: #45a049; /* 鼠标悬停时的背景色 */
+}
+
+body main section.main-part button.plus-btn {
+  font-size: 18px; /* 较大的字体 */
+  margin: 9px; /* 居中显示 */
+  padding: 15px 10px; /* 增加内边距 */
+  background-color: #918f4e; /* 醒目的背景色 */
+  color: white; /* 白色文字 */
+  border: none; /* 无边框 */
+  border-radius: 5px; /* 圆角 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+  cursor: pointer; /* 鼠标悬停时的手形光标 */
+}
+
+body main section.main-part button.plus-btn:hover {
+  background-color: #918f4ee3; /* 鼠标悬停时的背景色 */
+}
+
+/* 为所有滚动条设置样式
+::-webkit-scrollbar {
+  width: 12px; /* 滚动条宽度 
+}
+
+/* 滚动条轨道 
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 轨道颜色 
+}
+
+/* 滚动条滑块 
+::-webkit-scrollbar-thumb {
+  background: #888; /* 滑块颜色 
+}
+
+/* 当鼠标悬停在滑块上时 
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 滑块悬停颜色 
+}
+select.class-type {
+  max-height: 200px; /* 设置一个最大高度 
+  overflow-y: scroll; /* 允许垂直滚动 
+} 
+*/
