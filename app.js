@@ -88,6 +88,7 @@ calculateButton.addEventListener("click", function () {
   }
   let scores = document.querySelectorAll(".year-section .Score");
   let classname = document.querySelectorAll(".year-section .class-type");
+  let credits = document.querySelectorAll(".year-section .class-credit");
   //檢查是否所有課程都有填寫
   let allCoursesEntered = Array.from(classname).every(
     (course) => course.value.trim() !== ""
@@ -96,9 +97,15 @@ calculateButton.addEventListener("click", function () {
   let allScoresEntered = Array.from(scores).every(
     (score) => score.value.trim() !== ""
   );
+  let allScoreUnder100AndBigger0 = Array.from(scores).every(
+    (score) => score.value.trim() <= 100 && score.value.trim() >= 0
+  );
   //檢查所有學分是否都有填寫
   let allCreditsEntered = Array.from(credits).every(
     (credit) => credit.value.trim() !== ""
+  );
+  let allCreditsUnder6AndBigger0 = Array.from(credits).every(
+    (credit) => credit.value.trim() <= 6 && credit.value.trim() >= 0
   );
   if (!allCoursesEntered) {
     alert("請填寫所有課程！");
@@ -106,9 +113,11 @@ calculateButton.addEventListener("click", function () {
     alert("请填寫所有成績！");
   } else if (!allCreditsEntered) {
     alert("請填寫所有學分！");
+  } else if (!allScoreUnder100AndBigger0) {
+    alert("請填寫正確的分數！");
+  } else if (!allCreditsUnder6AndBigger0) {
+    alert("請填寫正確的學分！");
   } else {
-    console.log("classname", classname);
-    console.log("score", scores);
     setGPA();
     setRecommend(classname);
   }
@@ -205,7 +214,7 @@ function setGPA() {
   } else {
     result = (sum / creditSum).toFixed(2);
   }
-  console.log(result);
+  //console.log(result);
   document.getElementById("result-gpa").innerText = result;
 }
 
@@ -480,7 +489,7 @@ function setRecommend(classname) {
     //console.log(classname[i].value);
     let course = classname[i].value;
     let courseWeightage = weightage[course]; //獲取該課程的權重
-    console.log(courseWeightage);
+    //console.log(courseWeightage);
     let parsedScore = parseInt(score[i].value);
     if (courseWeightage) {
       // 對每個組別對應的權重乘以分數，並加總
@@ -511,8 +520,8 @@ function setRecommend(classname) {
 
   // 選出前三名
   let topThree = scores.slice(0, 3);
-  console.log("Top three groups:", topThree);
-  console.log(typeof topThree[0].name);
+  //console.log("Top three groups:", topThree);
+  //console.log(typeof topThree[0].name);
 
   let topThreeNames = topThree.map((item) => item.name).join(", ");
   document.getElementById("result-group").innerText = topThreeNames;
