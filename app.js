@@ -645,3 +645,5 @@ allTrash.forEach(trash =>{
         setGPA();        //刪除之後要重新計算GPA
     });
 });
+
+
